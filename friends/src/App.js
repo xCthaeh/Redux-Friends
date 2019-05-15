@@ -45,12 +45,15 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <h1>Friends List</h1>
+        <h1>Lambda Friends List</h1>
         {!this.props.editingFriend ? (
-          <CreateFriendForm addFriend={this.addFriend} />
-        ) : (
           <>
-            <h1>Edit</h1>
+          <h2>Add a Friend</h2>
+          <CreateFriendForm addFriend={this.addFriend} />
+        </>
+          ) : (
+          <>
+            <h2>Edit</h2>
             <UpdateFriendForm updateFriend={this.updateFriend} />
           </>
         )}
