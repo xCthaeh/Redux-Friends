@@ -1,24 +1,22 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { connect } from "react-redux";
 import FriendsList from "./components/FriendsList";
-import CreateFriendForm from "./components/CreateFriendForm.js";
-import UpdateFriendForm from "./components/UpdateFriendForm.js";
+import CreateFriendForm from "./components/CreateFriendForm";
+import UpdateFriendForm from "./components/UpdateFriendForm";
 import "./App.css";
 
 class App extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      friends: [],
       friends: [],
       id: null,
       update: false
     };
   }
   componentDidMount() {
-    axios.get("http://localhost:5000/api/friends").then(res => {
-      this.setState({ friends: res.data });
-    });
+    this.props.fetchFriends();
   }
   addFriend = friend => {
     axios.post("http://localhost:5000/api/friends", friend).then(res => {
@@ -38,10 +36,16 @@ class App extends Component {
         this.setState({ friends: res.data, update: false });
       });
   };
+  deleteFriend = id => {
+    axios.delete(`http://localhost:5000/api/friends/${id}`).then(res => {
+      this.setState({ friends: res.data });
+    });
+  };
   render() {
     return (
       <div className="App">
-        {!this.state.update ? (
+        <h1>Redux Friends List</h1>
+        {!this.props.editingFriend ? (
           <CreateFriendForm addFriend={this.addFriend} />
         ) : (
           <>
@@ -49,14 +53,25 @@ class App extends Component {
             <UpdateFriendForm updateFriend={this.updateFriend} />
           </>
         )}
-        <FriendsList
-          setId={this.setId}
-          friends={this.state.friends}
-          id={this.state.id}
-        />
+        {!this.props.fetchingFriends ? (
+          <FriendsList
+            deleteFriend={this.deleteFriend}
+            setId={this.setId}
+            id={this.state.id}
+          />
+        ) : (
+          <div>LOADING...</div>
+        )}
       </div>
     );
   }
 }
+
+const mstp = state => {
+  return {
+    fetchingFriends: state.friendsReducer.fetchingFriends,
+    editingFriend: state.friendsReducer.editingFriend
+  };
+};
 
 export default App;
