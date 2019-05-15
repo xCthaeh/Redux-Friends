@@ -71,7 +71,7 @@ class App extends Component {
 const mstp = state => {
   console.log(state);
   return {
-    friends: state.friendsReducer.friends
+    fetchingFriends: state.friendsReducer.fetchingFriends
   };
 };
 
