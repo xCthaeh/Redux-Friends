@@ -7,6 +7,20 @@ export const ERROR = "ERROR";
 export const DELETE = "DELETE";
 export const EDITING = "EDITING";
 
+export const fetchFriends = _ => dispatch => {
+  dispatch({ type: LOADING });
+  axios
+    .get(`http://localhost:5000/api/friends`)
+    .then(res => {
+      dispatch({ type: SUCCESS, payload: res.data });
+    })
+    .catch(err => {
+      dispatch({
+        type: ERROR,
+        payload: "Error 404: Cannot find friends"
+      });
+    });
+};
 export const deleteFriend = id => dispatch => {
   dispatch({ type: LOADING });
   axios
@@ -21,7 +35,6 @@ export const deleteFriend = id => dispatch => {
       });
     });
 };
-
 export const editFriend = friend => dispatch => {
   const id = store.getState().friendsReducer.id;
   dispatch({ type: LOADING });
@@ -34,6 +47,20 @@ export const editFriend = friend => dispatch => {
       dispatch({
         type: ERROR,
         payload: "Error 404: Cannot edit friend"
+      });
+    });
+};
+export const addFriend = friend => dispatch => {
+  dispatch({ type: LOADING });
+  axios
+    .post(`http://localhost:5000/api/friends/`, friend)
+    .then(res => {
+      dispatch({ type: SUCCESS, payload: res.data });
+    })
+    .catch(err => {
+      dispatch({
+        type: ERROR,
+        payload: "Error 404: Cannot add friend"
       });
     });
 };

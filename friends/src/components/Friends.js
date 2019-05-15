@@ -1,15 +1,26 @@
 import React from "react";
 import { connect } from "react-redux";
-import { deleteFriend, editingFriend } from "..actions";
+import { deleteFriend, editingFriend } from "../actions";
 
 const Friends = props => {
   return (
-    <div>
-      <div>{props.friend.name}</div>
-      <div>{props.friend.age}</div>
-      <div>{props.friend.email}</div>
-      <div onClick={_ => props.editingFriend(props.friend.id)}>edit</div>
-      <div onClick={_ => props.deleteFriend(props.friend.id)}>delete</div>
+    <div className="item">
+      <div className="item_text">
+        {props.friend.name}, {props.friend.age}
+      </div>
+      <div className="item_text">{props.friend.email}</div>
+      <div
+        className="item_button edit"
+        onClick={_ => props.editingFriend(props.friend.id)}
+      >
+        Edit
+      </div>
+      <div
+        className="item_button delete"
+        onClick={_ => props.deleteFriend(props.friend.id)}
+      >
+        Delete
+      </div>
     </div>
   );
 };

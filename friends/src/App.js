@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { connect } from "react-redux";
+import { fetchFriends } from "./actions";
 import FriendsList from "./components/FriendsList";
 import CreateFriendForm from "./components/CreateFriendForm";
 import UpdateFriendForm from "./components/UpdateFriendForm";
 import "./App.css";
-import { fetchFriends } from "./actions";
 
 class App extends Component {
   constructor(props) {
@@ -45,7 +45,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <h1>Redux Friends List</h1>
+        <h1>Friends List</h1>
         {!this.props.editingFriend ? (
           <CreateFriendForm addFriend={this.addFriend} />
         ) : (
@@ -69,7 +69,6 @@ class App extends Component {
 }
 
 const mstp = state => {
-  console.log(state);
   return {
     fetchingFriends: state.friendsReducer.fetchingFriends,
     editingFriend: state.friendsReducer.editingFriend
