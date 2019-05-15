@@ -5,6 +5,7 @@ import FriendsList from "./components/FriendsList";
 import CreateFriendForm from "./components/CreateFriendForm";
 import UpdateFriendForm from "./components/UpdateFriendForm";
 import "./App.css";
+import { fetchFriends } from "./actions";
 
 class App extends Component {
   constructor(props) {
@@ -68,10 +69,13 @@ class App extends Component {
 }
 
 const mstp = state => {
+  console.log(state);
   return {
-    fetchingFriends: state.friendsReducer.fetchingFriends,
-    editingFriend: state.friendsReducer.editingFriend
+    friends: state.friendsReducer.friends
   };
 };
 
-export default App;
+export default connect(
+  mstp,
+  { fetchFriends }
+)(App);
