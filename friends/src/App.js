@@ -9,7 +9,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      friends: [],
+      friends: []
     };
   }
   componentDidMount() {
@@ -17,9 +17,15 @@ class App extends Component {
       this.setState({ friends: res.data });
     });
   }
+  addFriend = friend => {
+    axios.post("http://localhost:5000/api/friends", friend).then(res => {
+      this.setState({ friends: res.data });
+    });
+  };
   render() {
     return (
       <div className="App">
+        <CreateFriendForm addFriend={this.addFriend} />
         <FriendsList friends={this.state.friends} />
       </div>
     );
